@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diameter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    #heading{
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0px 40px;
+        }
+       .center {
+          height: 15px;
+          text-align: center;
+          margin: 10px;
+          padding: 5px;
+      }
+
+      .container {
+          display: grid;
+          grid-template-columns: repeat(4, auto);
+      }
+
+      .item {
+          height: 50px;
+          border-radius: 10px;
+          background-color: green;
+          color: white;
+          cursor: pointer;
+          margin: 10px;
+          text-align: center;
+      }
+
+      .refresh {
+          width: 20vw;
+          margin: 20px auto;
+      }
+      @media screen and (max-width: 440px){
+    .container {
+    grid-template-columns: repeat(2, auto);
+  }
+  .refresh{
+          width: 40vw;
+      }
+  }
+  </style>
+</head>
+
+<body>
+    <div class="contain">
+        <Div class="center" id="heading">Guess by diameter</Div>
+        <Div class="center">No of Guesses: <span id="Guess">0</span></Div>
+        <Div class="center"><span id="Result"></span></Div>
+        <Div class="center"><span id="help">Click On The Planet To Guess</span></Div>
+    </div>
+
+    <div class="container">
+        <button class="item" id="mercury">Mercury</button>
+        <button class="item" id="venus">Venus</button>
+        <button class="item" id="earth">Earth</button>
+        <button class="item" id="mars">Mars</button>
+        <button class="item" id="jupiter">Jupiter</button>
+        <button class="item" id="saturn">Saturn</button>
+        <button class="item" id='uranus'>Uranus</button>
+        <button class="item" id="neptune">Neptune</button>
+
+    </div>
+    <div class="refresh">
+        <button class="item refresh" id="restart">Refresh</button>
+        <button class="item refresh" id="hint">How to play</button>
+    </div>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        var randomDiameter, randomPlanet, planetName, diameter, reload;
+        var Guesses = 0;
+        var check = true;
+        var randomNumber = Math.floor(Math.random() * (8));
+        var noOfGuesses = document.getElementById('Guess');
+        var result = document.getElementById('Result');
+        var help = document.getElementById('help');
+        var mercury = document.getElementById('mercury');
+        var venus = document.getElementById('venus');
+        var earth = document.getElementById('earth');
+        var mars = document.getElementById('mars');
+        var jupiter = document.getElementById('jupiter');
+        var saturn = document.getElementById('saturn');
+        var uranus = document.getElementById('uranus');
+        var neptune = document.getElementById('neptune');
+        var restart = document.getElementById('restart');
+        var hint = document.getElementById('hint');
+        mercury.addEventListener("click", function () {
+            diameter = 1;
+            planetName = "Mercury";
+            game();
+            if (check) {
+                play();
+            }
+            else {
+                swal("Click on refresh to play again!")
+            }
+        });
+        venus.addEventListener("click", function () {
+            diameter = 3;
+            planetName = "Venus";
+            game();
+            if (check) {
+                play();
+            }
+            else {
+                swal("Click on refresh to play again!")
+            }
+        });
+        earth.addEventListener("click", function () {
+            diameter = 4;
+            planetName = "Earth";
+            game();
+            if (check) {
+                play();
+            }
+            else {
+                swal("Click on refresh to play again!")
+            }
+        });
+        mars.addEventListener("click", function () {
+            diameter = 2;
+            planetName = "Mars";
+            game();
+            if (check) {
+                play();
+            }
+            else {
+                swal("Click on refresh to play again!")
+            }
+        });
+        jupiter.addEventListener("click", function () {
+            diameter = 8;
+            planetName = "Jupiter";
+            game();
+            if (check) {
+                play();
+            }
+            else {
+                swal("Click on refresh to play again!")
+            }
+        });
+        saturn.addEventListener("click", function () {
+            diameter = 7;
+            planetName = "Saturn";
+            game();
+            if (check) {
+                play();
+            }
+            else {
+                swal("Click on refresh to play again!")
+            }
+        });
+        uranus.addEventListener("click", function () {
+            diameter = 6;
+            planetName = "Uranus";
+            game();
+            if (check) {
+                play();
+            }
+            else {
+                swal("Click on refresh to play again!")
+            }
+        });
+        neptune.addEventListener("click", function () {
+            diameter = 5;
+            planetName = "Neptune";
+            game();
+            if (check) {
+                play();
+            }
+            else {
+                swal("Click on refresh to play again!")
+            }
+        });
+        restart.addEventListener("click", function () {
+            if (!check || Guesses == 0) {
+                rePlay();
+            }
+            else if (Guesses > 0) {
+                reload = swal("Do You want to refresh?", {
+                    buttons: {
+                        cancel: "No",
+                        catch: {
+                            text: "Yes",
+                            value: "catch",
+                        },
+                    },
+                })
+                    .then((value) => {
+                        switch (value) {
+                            case "catch":
+                                rePlay();
+                                break;
+                        }
+                    });
+            }
+
+        });
+        hint.addEventListener("click", function () {
+      swal("1. Click on any category you want to guess.\n \n2. Your device will choose a random planet.\n \n3. Click on any planet to guess.\n \n4. If it is correct, then congratulations.\n \n5. If not, then a hint will be given.");
+        });
+        function rePlay() {
+            Guesses = 0;
+            help.innerHTML = "Click On The Planet To Guess";
+            result.innerHTML = "";
+            check = true;
+            noOfGuesses.innerHTML = Guesses;
+            randomNumber = Math.floor(Math.random() * (8));
+            game();
+        }
+        function game() {
+            switch (randomNumber) {
+                case 0:
+                    randomPlanet = "Mercury";
+                    randomDiameter = 1;
+                    break;
+                case 1:
+                    randomPlanet = "Venus";
+                    randomDiameter = 3;
+                    break;
+                case 2:
+                    randomPlanet = "Earth";
+                    randomDiameter = 4;
+                    break;
+                case 3:
+                    randomPlanet = "Mars";
+                    randomDiameter = 2;
+                    break;
+                case 4:
+                    randomPlanet = "Jupiter";
+                    randomDiameter = 8;
+                    break;
+                case 5:
+                    randomPlanet = "Saturn";
+                    randomDiameter = 7;
+                    break;
+                case 6:
+                    randomPlanet = "Uranus";
+                    randomDiameter = 6;
+                    break;
+                case 7:
+                    randomPlanet = "Neptune";
+                    randomDiameter = 5;
+                    break;
+            }
+        }
+
+        function play() {
+            Guesses++;
+            noOfGuesses.innerHTML = Guesses;
+            if (diameter == randomDiameter) {
+                result.innerHTML = "Yes The Planet was " + randomPlanet;
+                help.innerHTML = "Click on Refresh To Play again";
+                check = false;
+                if (Guesses == 1) {
+                    swal("Great Job!", "It was " + randomPlanet, "success");
+                }
+                else {
+                    swal("You got it right!", "It was " + randomPlanet, "success");
+                }
+            }
+            else if (diameter < randomDiameter) {
+                help.innerHTML = "No, It's diameter is greater than " + planetName;
+            }
+            else if (diameter > randomDiameter) {
+                help.innerHTML = "No, It's diameter is lower than " + planetName;
+            }
+        }
+    </script>
+</body>
+
+</html>
